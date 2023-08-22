@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Search Page</title>
+</head>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
+
+    :root {
+        --primary-color: #1e1e1e;
+        --secondary-color: #2e2e2e;
+        --accent-color: #ff6f00;
+        --text-color: #fff;
+        --light-gray: #e0e0e0;
+        --dark-gray: #424242;
+        --day-primary-color: #fff;
+        --day-secondary-color: #f5f5f5;
+        --day-accent-color: #ff6f00;
+        --day-text-color: #000;
+        --day-light-gray: #e0e0e0;
+        --day-dark-gray: #424242;
+    }
+
+
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        color: var(--text-color);
+        background-color: var(--primary-color);
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .day-mode {
+        --primary-color: var(--day-primary-color);
+        --secondary-color: var(--day-secondary-color);
+        --accent-color: var(--day-accent-color);
+        --text-color: var(--day-text-color);
+        --light-gray: var(--day-light-gray);
+        --dark-gray: var(--day-dark-gray);
+    }
+
+
+    header {
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .search-box,
+    .filter select,
+    .filter input[type=date],
+    button {
+        border: none;
+        border-radius: 1.2rem;
+        padding: 0.5rem 1.2rem;
+        outline: none;
+    }
+
+    .search-box {
+        flex: 2;
+        color: var(--primary-color);
+        font-weight: 500;
+        background-color: var(--text-color);
+    }
+
+    button {
+        color: var(--text-color);
+        font-weight: 500;
+        cursor: pointer;
+        margin-left: 1rem;
+    }
+
+    .toggle-filters {
+        background-color: var(--secondary-color);
+    }
+
+    .search-btn {
+        background-color: var(--accent-color);
+    }
+
+    .filters-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1em;
+        padding: 1em;
+    }
+
+    .filter {
+        display: flex;
+
+        border-radius: 0.6rem;
+        padding: 1rem;
+        background-color: var(--secondary-color);
+        border: 1px solid var(--light-gray);
+    }
+
+    .filter h4 {
+        color: var(--light-gray);
+        margin-bottom: 0.6rem;
+    }
+
+    .filter select,
+    .filter input[type=date] {
+        height: 2.2rem;
+        color: var(--text-color);
+        background-color: var(--secondary-color);
+    }
+
+    .apply-filters {
+        background-color: var(--accent-color);
+        margin-top: 1.2rem;
+    }
+
+    .results {
+        display: grid;
+        gap: 1.8rem;
+    }
+
+    .result-card {
+        padding: 1.2rem;
+        border-radius: 0.6rem;
+        border: 1px solid var(--light-gray);
+        margin: 1.2rem;
+        background-color: var(--secondary-color);
+    }
+
+    .result-card .title {
+        color: var(--accent-color);
+        font-size: 1.2em;
+        margin-bottom: 0.6rem;
+    }
+
+    .result-card .source,
+    .result-card .date {
+        color: var(--light-gray);
+        font-size: 0.9em;
+    }
+
+    .result-card .snippet {
+        margin-top: 1.2rem;
+    }
+
+    footer {
+        padding: 1.2rem;
+        text-align: center;
+        color: var(--text-color);
+        background-color: var(--dark-gray);
+    }
+
+    .result-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1.2rem;
+        border-radius: 0.6rem;
+        border: 1px solid var(--light-gray);
+        margin: 1.2rem;
+        background-color: var(--secondary-color);
+    }
+
+    .result-card .title {
+        color: var(--accent-color);
+        font-size: 1.2em;
+        margin-bottom: 0.6rem;
+    }
+
+    .result-card .source,
+    .result-card .language,
+    .result-card .source-country,
+    .result-card .date {
+        color: var(--light-gray);
+        font-size: 0.9em;
+        margin-right: 0.3rem;
+    }
+
+    .result-card .metadata {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 0.6rem;
+    }
+
+    .result-card img {
+        width: 100px;
+        height: auto;
+        margin-right: 1rem;
+        border-radius: 0.6rem;
+    }
+
+    .result-card .content {
+        display: flex;
+    }
+
+    .result-card .snippet {
+        margin-top: 1.2rem;
+    }
+</style>
+
+<body>
+    <header>
+        <input class="search-box" type="text" placeholder="Enter keywords, locations, themes...">
+        <button class="toggle-filters">Filters</button>
+        <button class="search-btn">Search</button>
+        <button class="toggle-mode">Night Mode</button>
+    </header>
+
+    <div class="filters-section">
+        <div class="filter">
+            <h4>Search By:</h4>
+            <select>
+                <option value="default">Select</option>
+                <option value="keywords">Keywords</option>
+                <option value="location">Location</option>
+                <option value="theme">Theme</option>
+            </select>
+        </div>
+        <div class="filter">
+            <h4>Language:</h4>
+            <select>
+                <option value="all">All Languages</option>
+                <option value="english">English</option>
+                <option value="spanish">Spanish</option>
+            </select>
+        </div>
+        <div class="filter">
+            <h4>Country:</h4>
+            <select>
+                <option value="all">All Countries</option>
+                <option value="usa">USA</option>
+                <option value="india">India</option>
+            </select>
+        </div>
+        <div class="filter">
+            <h4>Date Range:</h4>
+            <input type="date" id="from-date">
+            <input type="date" id="to-date">
+        </div>
+        <div class="filter">
+            <h4>Sort By:</h4>
+            <select>
+                <option value="relevance">Relevance</option>
+                <option value="date">Date</option>
+                <option value="popularity">Popularity</option>
+            </select>
+        </div>
+        <button class="apply-filters">Apply Filters</button>
+    </div>
+
+    <section class="results">
+        <div class="result-card">
+            <h3 class="title">WP : Риск развития заболеваний после коронавируса сохраняется после двух лет</h3>
+            <div class="metadata">
+                <span class="source">vm.ru</span>
+                <span class="language">Russian</span>
+                <span class="source-country">Russia</span>
+                <span class="date">2023-08-21</span>
+            </div>
+            <div class="content">
+                <img src="https://vm.ru/img/vmru_cover.png" alt="social image">
+                <p class="snippet">Short article snippet goes here...</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2023 Sebastian Schepis. All Rights Reserved.
+    </footer>
+
+    <script>
+        // select elements
+        const filtersButton = document.querySelector('.toggle-filters');
+        const filtersSection = document.querySelector('.filters-section');
+
+        // hide filters section on load
+        //        filtersSection.style.display = 'none';
+
+        // toggle display on button click
+        filtersButton.addEventListener('click', function () {
+            if (filtersSection.style.display === 'none') {
+                filtersSection.style.display = 'flex';
+                filtersSection.style.flexDirection = 'grid';
+            } else {
+                filtersSection.style.display = 'none';
+            }
+        });
+        // select elements
+
+        const modeButton = document.querySelector('.toggle-mode');
+        const bodyElement = document.querySelector('body');
+
+
+        // toggle day/night mode on button click
+        modeButton.addEventListener('click', function () {
+            bodyElement.classList.toggle('day-mode');
+            modeButton.textContent = modeButton.textContent === 'Night Mode' ? 'Day Mode' : 'Night Mode';
+        });
+    </script>
+</body>
+
+</html>
