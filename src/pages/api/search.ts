@@ -67,3 +67,4 @@ export default async function handler(req: any, res: any) {
     // return data
     res.status(200).json({ data })
 }
+
