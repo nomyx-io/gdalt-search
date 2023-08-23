@@ -39,6 +39,7 @@ body {
     background-color: var(--primary-color);
     font-size: 16px;
     line-height: 1.5;
+    height: 100%;
 }
 
 header {
@@ -156,10 +157,11 @@ footer {
     color: var(--text-color);
     background-color: var(--dark-gray);
 }
-
 .result-card {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-auto-rows: min-content;
+    align-items: stretch;
     padding: 1.2rem;
     border-radius: 0.6rem;
     border: 1px solid var(--light-gray);
@@ -167,15 +169,36 @@ footer {
     background-color: var(--secondary-color);
 }
 
-.result-card .title {
-    color: var(--accent-color);
-    font-size: 1.2em;
-    margin-bottom: 0.6rem;
+.result-card img {
+    width: 100%;  /* Modify width, height and margin */
+    height: auto;
+    margin-right: 0;
+    border-radius: 0.6rem;
+    grid-column: 1;
+    grid-row: 1 / span 2; /* lets image take the height of both rows in the first column */
 }
-.result-card .url {
+
+.result-card .content {
+    display: flex;
+    flex-direction: column;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+}
+
+.result-card .url,
+.result-card .title,
+.result-card .metadata,
+.result-card .snippet {
+    padding: 0.6rem;
     color: var(--accent-color);
+}
+
+.result-card .title {
+    font-size: 1.2em;
+}
+
+.result-card .url {
     font-size: 0.9em;
-    margin-bottom: 0.6rem;
 }
 
 .result-card .source,
@@ -184,30 +207,16 @@ footer {
 .result-card .date {
     color: var(--light-gray);
     font-size: 0.9em;
-    margin-right: 0.3rem;
 }
 
 .result-card .metadata {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 0.6rem;
-}
-
-.result-card img {
-    width: 100px;
-    height: auto;
-    margin-right: 1rem;
-    border-radius: 0.6rem;
-}
-
-.result-card .content {
-    display: flex;
 }
 
 .result-card .snippet {
     margin-top: 1.2rem;
 }
-
 .initial-view {
     position: absolute;
     top: 50%;

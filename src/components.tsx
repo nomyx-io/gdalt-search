@@ -83,7 +83,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ query, results, onChange, 
   return (
     <div className={`search-box ${!results.length ? 'initial-view' : ''}`}>
       <input type="text" placeholder="Enter keywords, locations, themes..." value={query} onChange={onChange} onKeyPress={onKeyPress} />
-      <button onClick={onSearchClick}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-hourglass-split" viewBox="0 0 16 16">
+      <button onClick={onSearchClick}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" className="bi bi-hourglass-split" viewBox="0 0 16 16">
 <path d="M8 0a2 2 0 0 1 2 2v2h-4V2a2 2 0 0 1 2-2zm6 4h-2V2a4 4 0 0 0-4-4h-2a4 4 0 0 0-4 4v2H2a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2v2a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4V8h2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM4 4h8v2H4V4zm8 8H4V8h8v4z"/>
 </svg></button>
     </div>
@@ -151,23 +151,25 @@ interface ResultCardProps {
   sourcecountry: string;
 }
 
-export const ResultCard: React.FC<ResultCardProps> = ({ url, url_mobile, title, seendate, socialimage, domain, language, sourcecountry }: any) => {
-  return (
-    <a href={url} target="_blank"><div className="result-card">
-      <h3 className="url">{title}</h3>
-      <h2 className="title">{url}</h2>
-      <div className="metadata">
-        <span className="source">{domain}</span>
-        <span className="language">{language}</span>
-        <span className="source-country">{sourcecountry}</span>
-        <span className="date">{seendate}</span>
-      </div>
+export const ResultCard: React.FC<ResultCardProps> = ({
+  url, url_mobile, title, seendate, socialimage, domain, language, sourcecountry
+}: any) => (
+  <a href={url} target="_blank">
+    <div className="result-card">
+      <img src={socialimage} alt="social image" height="100px" />
       <div className="content">
-        <img src={socialimage} alt="social image" />
+        <h3 className="url">{title}</h3>
+        <h2 className="title">{url}</h2>
+        <div className="metadata">
+          <span className="source">{domain}</span>
+          <span className="language">{language}</span>
+          <span className="source-country">{sourcecountry}</span>
+          <span className="date">{seendate}</span>
+        </div>
       </div>
-    </div></a>
-  );
-};
+    </div>
+  </a>
+);
 
 interface ToggleButtonProps {
   toggled?: boolean;
