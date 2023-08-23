@@ -59,12 +59,32 @@ async function gdelt_project_query(
     }
 }
 
-export default async function handler(req: any, res: any) {
-    // get q from query string
-    const { q } = req.query;
+async function search_gdelt(term: string, options: any) {
+    function cleanDate(d: string) {
+        d = d.replaceAll('-','');
+        d = d.replaceAll(':','');
+        d = d.replaceAll(' ','');
+        d = d.replaceAll('T','');
+        return d
+    }
+    if(!options) {
+        const now = new Date();
+        let yesterday = new Date();
+        yesterday.setDate(now.getDate() - 1);
+        options = {
+            start_date: cleanDate(yesterday.toISOString().slice(0, 19)),
+            end_date: cleanDate(now.toISOString().slice(0, 19)),
+            max_records: 250,
+            format: 'json'
+        }
+    }
     // get data from gdelt
-    const data = await gdelt_project_query(q);
-    // return data
+    return gdelt_project_query(term, options.start_date, options.end_date, options.max_records, options.format);
+}
+
+export default async function handler(req: any, res: any) {
+    const { q, source, options } = req.query
+    const data = await search_gdelt(q, options)
     res.status(200).json({ data })
 }
 

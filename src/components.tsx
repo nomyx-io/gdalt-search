@@ -29,11 +29,18 @@ const initialFilters = {
 
 export const Header: React.FC<HeaderProps> = ({ onSearch, results }: any) => {
   const [query, setQuery] = useState<string>('');
+  const [toggled, setToggled] = useState<boolean>(false);
   const onChange = (e: any) => {
     setQuery(e.target ? e.target.value : e);
   }
-  const onModeChange = (toggled: boolean) => {
-    console.log('toggled', toggled);
+  const onModeChange = (_toggled: boolean) => {
+    setToggled(_toggled);
+    console.log('toggled', _toggled);
+    // change mode to day/night
+    if(_toggled)
+      document.body.classList.add('day-mode');
+    else 
+      document.body.classList.remove('day-mode');
   }
   return (
     <header>
@@ -47,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({ onSearch, results }: any) => {
         <a href="##">Geo</a>
         <a href="##">Trends</a>
       </nav>}
-      <ToggleButton onToggle={onModeChange} />
+      <ToggleButton onToggle={onModeChange} toggled={toggled} />
     </header>
   );
 };
@@ -147,8 +154,8 @@ interface ResultCardProps {
 export const ResultCard: React.FC<ResultCardProps> = ({ url, url_mobile, title, seendate, socialimage, domain, language, sourcecountry }: any) => {
   return (
     <a href={url} target="_blank"><div className="result-card">
-      <h2 className="url">{title}</h2>
-      <h3 className="title">{url}</h3>
+      <h3 className="url">{title}</h3>
+      <h2 className="title">{url}</h2>
       <div className="metadata">
         <span className="source">{domain}</span>
         <span className="language">{language}</span>
@@ -163,19 +170,19 @@ export const ResultCard: React.FC<ResultCardProps> = ({ url, url_mobile, title, 
 };
 
 interface ToggleButtonProps {
+  toggled?: boolean;
   onToggle: (toggled: boolean) => void;
 }
 
 //  nice toggle button made out of a checkbox and CSS
-export const ToggleButton: React.FC<ToggleButtonProps> = ({ onToggle }) => {
-  const [toggled, setToggled] = useState<boolean>(false);
+export const ToggleButton: React.FC<ToggleButtonProps> = ({ toggled, onToggle }) => {
+  const _toggled = toggled ? 'checked' : '';
   const onChange = (e: any) => {
-    setToggled(e.target.checked);
     onToggle(e.target.checked);
   }
   return (
     <div className="toggle-button">
-      <input type="checkbox" id="toggle" onChange={onChange} />
+      <input type="checkbox" id="toggle" onChange={onChange} value={_toggled} />
       <label htmlFor="toggle"></label>
     </div>
   );

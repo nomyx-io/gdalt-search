@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 interface WordCloudWord {
     text: string;
@@ -47,46 +47,4 @@ interface WordCloudWord {
       </div>
     );
   }
-  
-  export default () => {
-  
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const [searchResults, setSearchResults] = useState<any[]>([]);
-    const [itemOffset, setItemOffset] = useState<number>(0);
-    const [itemsPerPage, setItemsPerPage] = useState<number>(10);
-    const [pageCount, setPageCount] = useState<number>(0);
-  
-    useEffect(() => {
-      let isMounted = true;
-      fetchSearch(searchQuery).then((data: any) => {
-        if (isMounted){
-          const resultData = data.data ? data.data : data;
-          setSearchResults(resultData);
-          setPageCount(Math.ceil(resultData.length / itemsPerPage));
-        }
-      });
-      return () => { isMounted = false }; // to make sure state updating happens only when the component is mounted
-    }, [searchQuery]);
-  
-    const onPageChange = (e: any) => {
-      const selectedPage = e.selected;
-      const offset = selectedPage * itemsPerPage;
-      setItemOffset(offset);
-    }
-  
-    return (
-      <div>
-        <Header onSearch={setSearchQuery} results={searchResults} />
-        <SearchResults
-          results={searchResults}
-          offset={itemOffset}
-          itemsPerPage={itemsPerPage}
-          setPageCount={setPageCount}
-          pageCount={pageCount}
-          onPageChange={onPageChange}
-        />
-      </div>
-    );
-  };
-  
   

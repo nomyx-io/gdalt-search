@@ -16,7 +16,18 @@
     --day-dark-gray: #3a3a3a;
 }
 
-
+.day-mode {
+    --primary-color: var(--day-primary-color);
+    --secondary-color: var(--day-secondary-color);
+    --accent-color: var(--day-accent-color);
+    --text-color: var(--day-text-color);
+    --light-gray: var(--day-light-gray);
+    --dark-gray: var(--day-dark-gray);
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+    
+}
 
 html,
 body {
@@ -29,16 +40,6 @@ body {
     font-size: 16px;
     line-height: 1.5;
 }
-
-.day-mode {
-    --primary-color: var(--day-primary-color);
-    --secondary-color: var(--day-secondary-color);
-    --accent-color: var(--day-accent-color);
-    --text-color: var(--day-text-color);
-    --light-gray: var(--day-light-gray);
-    --dark-gray: var(--day-dark-gray);
-}
-
 
 header {
     padding: 2rem;
@@ -130,6 +131,12 @@ button {
 .result-card .title {
     color: var(--accent-color);
     font-size: 1.2em;
+    margin-bottom: 0.6rem;
+}
+
+.result-card .url {
+    color: var(--accent-color);
+    font-size: 0.9em;
     margin-bottom: 0.6rem;
 }
 
@@ -306,3 +313,12 @@ a {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
   }
+
+    .toggle-button input[type="checkbox"]:checked + label {
+        background: #1e1e1e;
+    }
+
+    .toggle-button input[type="checkbox"]:checked + label:after {
+        left: calc(100% - 2px);
+        transform: translateX(-100%);
+    }
